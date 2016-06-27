@@ -19,7 +19,10 @@ function color_map(date){
 			R=R+electoral_votes[state_dict[state]];
 		}
 	}
-	console.log("R = ", R, "D = ", D);
+	
+	document.getElementById("demvote").innerHTML="Clinton: "+D;
+	document.getElementById("repvote").innerHTML="Trump: "+R;
+	document.getElementById("showdate").innerHTML="Date: "+(date.getMonth()+1)+"/"+date.getDate();
 }
 
 
@@ -35,7 +38,6 @@ document.getElementById("animation").addEventListener("click", function(){
 	
 	step = function(){
 		color_map(date);
-		console.log(date);
 		if(date<=today){
 			setTimeout(step, 100);
 			date.setDate(date.getDate()+1);		
