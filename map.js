@@ -8,9 +8,18 @@ rainbow_blue.setSpectrum('e0e0e0', 'blue');
 
 
 function color_map(date){
+	var R = 0;
+	var D = 0;
 	for(state in state_dict){
-		color_state(state, date, 0);
+		x = color_state(state, date, 0);
+		if(x>0){
+			D=D+electoral_votes[state_dict[state]];
+		}
+		if(x<0){
+			R=R+electoral_votes[state_dict[state]];
+		}
 	}
+	console.log("R = ", R, "D = ", D);
 }
 
 
@@ -43,6 +52,7 @@ document.getElementById("animation").addEventListener("click", function(){
 
 function color_state(state, date, count){
 	state_id = state_dict[state];
+	var redblue=0;
 	var sum_diff = 0;
 	var number = 0;
 	thirtydays = 86400*1000*30;
@@ -63,11 +73,14 @@ function color_state(state, date, count){
 		}else if(take_color<0){
 			document.getElementById(state_id).setAttribute("fill", "#"+rainbow_red.colourAt(-take_color));
 		}
+		
+		redblue=Math.sign(take_color);
 	}
 	
 	if((number==0) &&(date>new Date("2016/01/01"))){
 		count=count+1;
-		color_state(state, date-thirtydays, count);
+		x=color_state(state, date-thirtydays, count);
+		return(x);
 	}
 	
 	if((number == 0) && (date<=new Date("2016/01/01"))){
@@ -77,7 +90,11 @@ function color_state(state, date, count){
 		}else if(old<0){
 			document.getElementById(state_id).setAttribute("fill", "#"+rainbow_red.colourAt(-old));
 		}
+		
+		redblue=Math.sign(old);
 	}
+	
+	return(redblue);
 }
 
 
